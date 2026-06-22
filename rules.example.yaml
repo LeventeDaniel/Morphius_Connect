@@ -1,0 +1,59 @@
+# Morphius Connect — Example Runtime Rules
+#
+# Copy this file to rules.yaml and adjust for your environment.
+# rules.yaml is .gitignored — safe to customize locally.
+#
+# These rules define policies that govern how connections are used.
+# They do NOT enforce at the network level — they inform modules and
+# orchestrators what approvals and logging behavior is expected.
+
+rules:
+  # ─── Secrets Policy ───────────────────────────────────────────────────────
+  secrets:
+    never_store_in_public_repo: true
+    redact_logs: true
+    allow_plaintext_in_yaml: false
+
+  # ─── Approval Requirements ────────────────────────────────────────────────
+  # These categories of actions require explicit approval before execution.
+  approvals:
+    required_for:
+      - public_post          # posting to external social/community platforms
+      - send_email           # outbound email
+      - spend_money          # any billable or purchasing action
+      - delete_data          # irreversible data deletion
+      - credential_change    # rotating or changing credentials
+      - external_write       # writing to external APIs or services
+      - code_execution       # executing generated or modified code
+      - database_write       # mutations to persistent datastores
+      - webhook_send         # firing outbound webhooks
+
+  # ─── Network Policy ───────────────────────────────────────────────────────
+  network:
+    allow_localhost: true
+    allow_cloud: true
+    # Add domains to block outbound connections to:
+    blocked_domains: []
+    # Example blocked domains:
+    # blocked_domains:
+    #   - tracking.example.com
+    #   - analytics.unsafe.com
+
+  # ─── Logging Policy ───────────────────────────────────────────────────────
+  logging:
+    log_connection_health: true
+    log_request_metadata_only: true   # never log full request/response bodies
+    never_log_headers:
+      - authorization
+      - cookie
+      - x-api-key
+      - x-auth-token
+      - x-storage-key
+      - proxy-authorization
+    never_log_env_vars:
+      - CLOUD_LLM_API_KEY
+      - LOCAL_LLM_API_KEY
+      - CODING_API_TOKEN
+      - DATABASE_URL
+      - WEBHOOK_SECRET
+      - GENERIC_API_KEY

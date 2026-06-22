@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment secrets — NEVER commit real secrets
+.env
+.env.local
+.env.*.local
+
+# Local config overrides — user-specific, may contain real endpoints/keys
+connect.yaml
+rules.yaml
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Runtime / temp
+.tmp/
+
+# Serena internal state
+.serena/

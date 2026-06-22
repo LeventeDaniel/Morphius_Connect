@@ -1,0 +1,31 @@
+{
+  "name": "morphius-connect",
+  "version": "0.1.0",
+  "description": "Private/local connection and secrets layer for Morphius-compatible systems",
+  "author": "Levente Daniel Feher",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "connect:validate": "tsx src/cli.ts validate",
+    "connect:list": "tsx src/cli.ts list",
+    "connect:health": "tsx src/cli.ts health",
+    "connect:doctor": "tsx src/cli.ts doctor",
+    "connect:redact-test": "tsx src/cli.ts redact-test",
+    "module:validate": "node ../Morphius_Forge/packages/cli/dist/index.js validate ./module"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "yaml": "^2.4.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "tsx": "^4.15.7",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

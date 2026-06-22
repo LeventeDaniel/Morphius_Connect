@@ -1,0 +1,44 @@
+{
+  "id": "morphius-connect-ui",
+  "name": "Morphius Connect",
+  "version": "1.0.0",
+  "type": "frontend",
+  "entry": "./src/module.tsx",
+  "description": "Safe UI for viewing Morphius-Connect status, connection metadata, and redacted health information.",
+  "permissions": [],
+  "connectors": [],
+  "secretRefs": [],
+  "window": {
+    "defaultWidth": 720,
+    "defaultHeight": 520,
+    "resizable": true,
+    "collapsible": true,
+    "minimizable": true
+  },
+  "actions": [
+    {
+      "id": "viewStatus",
+      "name": "View Connect Status",
+      "description": "Show availability, config load state, and connection count"
+    },
+    {
+      "id": "viewConnections",
+      "name": "View Connections",
+      "description": "List connection IDs, types, adapters, and auth modes — no secrets"
+    },
+    {
+      "id": "viewHealth",
+      "name": "View Health",
+      "description": "Show health check results and response times — sanitized messages only"
+    }
+  ],
+  "eventsEmitted": [],
+  "eventsListened": [],
+  "workflowCompatible": false,
+  "mockMode": true,
+  "tags": ["connect", "status", "metadata", "safe"],
+  "author": "Morphius_Connect",
+  "morphiusCompatibility": {
+    "minVersion": "0.1.0"
+  }
+}

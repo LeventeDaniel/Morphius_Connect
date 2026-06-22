@@ -1,0 +1,142 @@
+# Morphius Connect — Example Connection Configuration
+#
+# Copy this file to connect.yaml and fill in your real values.
+# connect.yaml is .gitignored — safe to put real URLs and secret refs there.
+# Do NOT put real secret values here — use token_ref to point at env vars.
+#
+# See README.md for full documentation.
+
+connections:
+  # ─── Local LLM ────────────────────────────────────────────────────────────
+  - id: local-llm
+    type: llm
+    adapter: ollama
+    base_url: http://localhost:11434
+    model: example-model-name
+    auth:
+      mode: none
+    health:
+      enabled: true
+      path: /api/tags
+
+  # ─── Cloud LLM (OpenAI-compatible) ────────────────────────────────────────
+  - id: cloud-llm
+    type: llm
+    adapter: openai-compatible
+    base_url: https://api.example.com/v1
+    model: example-cloud-model
+    auth:
+      mode: bearer
+      token_ref: CLOUD_LLM_API_KEY
+    health:
+      enabled: true
+      path: /models
+
+  # ─── Reasoning / Advanced LLM ─────────────────────────────────────────────
+  - id: reasoning-api
+    type: reasoning
+    adapter: openai-compatible
+    base_url: https://reasoning.example.com/v1
+    model: example-reasoning-model
+    auth:
+      mode: bearer
+      token_ref: CLOUD_LLM_API_KEY
+    health:
+      enabled: false
+
+  # ─── Coding API (requires approval — may modify files) ────────────────────
+  - id: coding-api
+    type: coding
+    adapter: generic-http
+    base_url: http://localhost:4000
+    auth:
+      mode: bearer
+      token_ref: CODING_API_TOKEN
+    approval:
+      required: true
+      reason: Code execution may read or modify local files
+    health:
+      enabled: true
+      path: /health
+
+  # ─── Browser / Automation API ─────────────────────────────────────────────
+  - id: browser-api
+    type: browser
+    adapter: generic-http
+    base_url: http://localhost:7900
+    auth:
+      mode: none
+    health:
+      enabled: true
+      path: /status
+
+  # ─── Preview / Canvas API ─────────────────────────────────────────────────
+  - id: preview-api
+    type: preview
+    adapter: generic-http
+    base_url: http://localhost:7901
+    endpoints:
+      preview: /preview
+      decision: /decision
+      decide: /decide
+    auth:
+      mode: none
+    health:
+      enabled: true
+      path: /health
+
+  # ─── Database ─────────────────────────────────────────────────────────────
+  - id: main-database
+    type: database
+    adapter: generic-http
+    base_url: http://localhost:5432
+    auth:
+      mode: env-only
+      token_ref: DATABASE_URL
+    approval:
+      required: true
+      reason: Database writes are destructive and irreversible
+    health:
+      enabled: false
+
+  # ─── Object Storage ───────────────────────────────────────────────────────
+  - id: object-storage
+    type: storage
+    adapter: generic-http
+    base_url: https://storage.example.com
+    auth:
+      mode: api-key-header
+      header_name: X-Storage-Key
+      token_ref: GENERIC_API_KEY
+    health:
+      enabled: false
+
+  # ─── Webhook Endpoint ─────────────────────────────────────────────────────
+  - id: outbound-webhook
+    type: webhook
+    adapter: generic-http
+    base_url: https://hooks.example.com
+    endpoints:
+      notify: /notify
+      event: /event
+    auth:
+      mode: bearer
+      token_ref: WEBHOOK_SECRET
+    approval:
+      required: true
+      reason: Webhooks send data to external systems
+    health:
+      enabled: false
+
+  # ─── Generic Cloud API ────────────────────────────────────────────────────
+  - id: generic-cloud-api
+    type: generic-api
+    adapter: generic-http
+    base_url: https://api.example-service.com
+    auth:
+      mode: api-key-header
+      header_name: X-Api-Key
+      token_ref: GENERIC_API_KEY
+    health:
+      enabled: true
+      path: /ping
